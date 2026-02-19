@@ -14,7 +14,10 @@
   outputs = { self, nixpkgs, flake-utils, ... }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = (import nixpkgs { inherit system; }).pkgsStatic;
+        pkgs = (import nixpkgs {
+          localSystem = "x86_64-linux";
+          crossSystem = { config = "aarch64-unknown-linux-gnu"; };
+        }).pkgsStatic;
       in
       rec {
         # runtimes are an executable that mount the squashfs part of the appimage and start AppRun
